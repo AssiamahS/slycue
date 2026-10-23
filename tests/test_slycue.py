@@ -1,5 +1,4 @@
 """slycue tests — synthetic tracks with known structure, so cue placement is checkable without real music."""
-import subprocess
 import sys
 from pathlib import Path
 
@@ -18,7 +17,7 @@ FIRST = 0.25  # first downbeat, seconds
 
 
 def make_track(path: Path, sections=((32, 0.08), (64, 0.7), (32, 0.12), (64, 0.75)), root_hz=220.0):
-    """Kick on every beat + an A-minor pad; each section = (beats, loudness). Encoded with ffmpeg like a real mp3."""
+    """Kick on every beat + an A-minor pad; each section = (beats, loudness), encoded as a real mp3."""
     beats = sum(b for b, _ in sections)
     n = int((FIRST + beats * BEAT + 2) * SR)
     t = np.arange(n) / SR
@@ -33,10 +32,7 @@ def make_track(path: Path, sections=((32, 0.08), (64, 0.7), (32, 0.12), (64, 0.7
             kt = np.arange(int(0.12 * SR)) / SR
             y[i:i + len(kt)] += amp * np.sin(2 * np.pi * 55 * kt) * np.exp(-kt * 30)
         b0 += count
-    wav = path.with_suffix(".wav")
-    sf.write(wav, np.clip(y, -1, 1), SR)
-    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(wav), "-b:a", "192k", str(path)], check=True)
-    wav.unlink()
+    sf.write(path, np.clip(y, -1, 1), SR, format="MP3")   # libsndfile >= 1.1 encodes mp3, no ffmpeg needed
     return path
 
 

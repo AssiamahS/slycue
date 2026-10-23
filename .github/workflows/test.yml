@@ -8,6 +8,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: sudo apt-get install -y -q --no-install-recommends ffmpeg libsndfile1 || (sudo apt-get update -q && sudo apt-get install -y -q --no-install-recommends ffmpeg libsndfile1)
       - run: pip install -q -r requirements.txt pytest
       - run: pytest -q tests
