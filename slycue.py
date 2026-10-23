@@ -34,7 +34,7 @@ from mutagen.id3 import COMM, GEOB, ID3, TKEY, TXXX, ID3NoHeaderError
 
 EXTS = {".mp3", ".aif", ".aiff"}
 PHRASE = 16                      # beats per phrase; MIK puts cues on 16-beat boundaries
-MIN_GAP = 32                     # beats between two cues
+MIN_GAP = 16                     # beats between two cues (MIK often cues consecutive phrases)
 MAX_CUES = 8
 MIK_COLORS = [0xCC0000, 0xCC8800, 0x0000CC, 0xCCCC00, 0x00CC00, 0xCC00CC, 0x00CCCC, 0x8800CC]
 DEFAULT_UNDO = Path.home() / ".slycue" / "undo.jsonl"
