@@ -1,0 +1,4 @@
+librosa>=0.10
+mutagen>=1.47
+numpy
+soundfile
